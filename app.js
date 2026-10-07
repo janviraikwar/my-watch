@@ -1124,35 +1124,66 @@ async function loadMyOrders() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    let rendered = false;
+
+    // Safety timeout: render page after 3s even if Supabase never initializes
+    const safetyTimeout = setTimeout(() => {
+        if (!rendered) {
+            rendered = true;
+            console.warn('Supabase init timeout — rendering page without data');
+            renderPage();
+        }
+    }, 3000);
+
     // Initialize Supabase check
     const initCheck = setInterval(async () => {
         if (window.supabaseClient) {
             clearInterval(initCheck);
-            
-            // Check for existing session
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (session) {
-                const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
-                if (profile && profile.role === 'customer') {
-                    state.user = {
-                        id: session.user.id,
-                        name: (profile.first_name || '') + ' ' + (profile.last_name || ''),
-                        email: session.user.email,
-                        avatar: "https://ui-avatars.com/api/?name=" + encodeURIComponent(profile.first_name || session.user.email) + "&background=d4af37&color=000"
-                    };
+
+            try {
+                // Check for existing session
+                const sessionResult = await window.supabaseClient.auth.getSession();
+                const session = sessionResult?.data?.session || null;
+
+                if (session) {
+                    try {
+                        const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+                        if (profile && profile.role === 'customer') {
+                            state.user = {
+                                id: session.user.id,
+                                name: (profile.first_name || '') + ' ' + (profile.last_name || ''),
+                                email: session.user.email,
+                                avatar: "https://ui-avatars.com/api/?name=" + encodeURIComponent(profile.first_name || session.user.email) + "&background=d4af37&color=000"
+                            };
+                        }
+                    } catch (profileErr) {
+                        console.warn('Could not load user profile:', profileErr.message);
+                    }
                 }
+            } catch (authErr) {
+                console.warn('Could not check auth session:', authErr.message);
             }
 
-            // Fetch products from Supabase
-            const { data, error } = await window.supabaseClient.from('products').select('*').eq('is_active', true);
-            if (data && !error) {
-                // Map the DB schema to match frontend requirements
-                products = data.map(p => ({
-                    ...p,
-                    image: p.image_url || 'https://via.placeholder.com/300'
-                }));
+            try {
+                // Fetch products from Supabase
+                const { data, error } = await window.supabaseClient.from('products').select('*').eq('is_active', true);
+                if (data && !error) {
+                    products = data.map(p => ({
+                        ...p,
+                        image: p.image_url || 'https://via.placeholder.com/300'
+                    }));
+                } else if (error) {
+                    console.warn('Could not fetch products:', error.message);
+                }
+            } catch (fetchErr) {
+                console.warn('Products fetch failed:', fetchErr.message);
             }
-            renderPage();
+
+            if (!rendered) {
+                rendered = true;
+                clearTimeout(safetyTimeout);
+                renderPage();
+            }
         }
     }, 100);
 });
