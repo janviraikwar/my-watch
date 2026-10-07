@@ -1,0 +1,19 @@
+{
+  "name": "luxury-watch-app",
+  "version": "1.0.0",
+  "description": "AETHER Luxury Watches E-commerce",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^8.3.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "dotenv": "^18.0.6",
+    "razorpay": "^2.9.8"
+  }
+}

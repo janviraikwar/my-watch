@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER | Premium Luxury Watches</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <header>
+        <div class="brand-logo" onclick="navigate('home')">AETHER</div>
+        <nav class="nav-links">
+            <a href="#" onclick="navigate('home'); return false;">Home</a>
+            <a href="#" onclick="navigate('shop'); return false;">Watches</a>
+            <a href="#" onclick="navigate('shop'); return false;">Men</a>
+            <a href="#" onclick="navigate('shop'); return false;">Women</a>
+            <a href="#" onclick="navigate('home'); return false;">About</a>
+            <a href="#" onclick="navigate('home'); return false;">Contact</a>
+        </nav>
+        <div class="nav-icons">
+            <i class="fa-solid fa-magnifying-glass" style="cursor:pointer;" onclick="toggleSearch()"></i>
+            <i class="fa-regular fa-heart" onclick="navigate('wishlist')"></i>
+            <div style="position:relative; cursor:pointer;" onclick="navigate('cart')">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count" style="position:absolute; top:-10px; right:-10px; background:var(--gold); color:#000; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:50%;">0</span>
+            </div>
+            <span id="auth-btn-group" class="auth-btn-wrapper" style="display:flex; gap:15px; align-items:center;">
+                <!-- Desktop Auth Links -->
+                <a href="#" onclick="navigate('login'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Login</a>
+                <a href="#" onclick="navigate('register'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Sign Up</a>
+                <a href="/admin/login" class="login-text" style="text-decoration:none; color:var(--text-muted);">Admin</a>
+                
+                <!-- Mobile fallback icon -->
+                <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')"></i>
+            </span>
+        </div>
+    </header>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay">
+        <div class="search-container">
+            <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search watches..." oninput="handleSearch(event)">
+                <i class="fa-solid fa-xmark close-icon" onclick="toggleSearch()"></i>
+            </div>
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <!-- Content injected by app.js -->
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="brand-logo" style="margin-bottom:15px; font-size:1.5rem;">AETHER</div>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Time, Designed for You.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">All Watches</a></li>
+                    <li><a href="#">Men's Watches</a></li>
+                    <li><a href="#">Women's Watches</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Warranty</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 AETHER Watches. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="/supabase-init.js"></script>
+    <script defer src="/data.js"></script>
+    <script defer src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER | Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+    <!-- Login View -->
+    <div id="admin-login-view" class="view-active">
+        <div class="login-container">
+            <h2 style="color: var(--gold); letter-spacing: 2px;">AETHER</h2>
+            <h3 style="margin-bottom: 20px; font-weight: 300;">ADMIN LOGIN</h3>
+            <div id="login-error" class="error-msg"></div>
+            <div class="form-group">
+                <label style="display:block; margin-bottom:5px; color:var(--text-muted); text-align:left;">Email</label>
+                <input type="email" id="admin-email" placeholder="Admin Email" required>
+            </div>
+            <div class="form-group">
+                <label style="display:block; margin-bottom:5px; color:var(--text-muted); text-align:left;">Password</label>
+                <input type="password" id="admin-password" placeholder="Password" required>
+            </div>
+            <button class="btn-primary" onclick="handleAdminLogin()" style="width: 100%;">LOGIN TO ADMIN PANEL</button>
+            <div style="margin-top: 15px; text-align: center;">
+                <a href="/" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="admin-dashboard-view" class="view-hidden">
+        <aside class="sidebar">
+            <div class="brand">AETHER ADMIN</div>
+            <nav class="nav-menu">
+                <a href="#/dashboard" onclick="showSection('dashboard')" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#/products" onclick="showSection('products')" class="nav-item" data-target="products"><i class="fa-solid fa-box"></i> Products</a>
+                <a href="#/users" onclick="showSection('users')" class="nav-item" data-target="users"><i class="fa-solid fa-users"></i> Users</a>
+                <a href="#/customers" onclick="showSection('customers')" class="nav-item" data-target="customers"><i class="fa-solid fa-address-book"></i> Customers</a>
+                <a href="#/orders" onclick="showSection('orders')" class="nav-item" data-target="orders"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+                <a href="#/payments" onclick="showSection('payments')" class="nav-item" data-target="payments"><i class="fa-solid fa-credit-card"></i> Payment Gateways</a>
+                <a href="#/cms" onclick="showSection('cms')" class="nav-item" data-target="cms"><i class="fa-solid fa-file-pen"></i> CMS</a>
+                <a href="#/settings" onclick="showSection('config')" class="nav-item" data-target="config"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a href="#" onclick="showSection('profile')" class="nav-item" data-target="profile"><i class="fa-solid fa-user-tie"></i> Admin Profile</a>
+                <a href="#" onclick="handleAdminLogout()" class="nav-item logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h3>Management Portal</h3>
+                <div class="admin-profile" onclick="showSection('profile')" style="cursor: pointer;">
+                    <span id="current-admin-email">Admin</span>
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="section-dashboard" class="content-section active">
+                <h2 class="section-title">Overview Analytics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Products</div>
+                        <div class="stat-value" id="stat-products">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Users</div>
+                        <div class="stat-value" id="stat-users">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Customers</div>
+                        <div class="stat-value" id="stat-customers">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Orders</div>
+                        <div class="stat-value" id="stat-orders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Revenue</div>
+                        <div class="stat-value" id="stat-revenue">₹0</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top:40px; margin-bottom: 20px;">Analytics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card" style="grid-column: span 2;">
+                        <div class="stat-title">Sales Overview (This Month)</div>
+                        <div class="stat-value" style="font-size: 1.5rem; margin-top: 10px;">+12.5%</div>
+                        <p style="color:var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Compared to last month</p>
+                    </div>
+                    <div class="stat-card" style="grid-column: span 2;">
+                        <div class="stat-title">Customer Growth</div>
+                        <div class="stat-value" style="font-size: 1.5rem; margin-top: 10px;">+8.3%</div>
+                        <p style="color:var(--text-muted); font-size: 0.9rem; margin-top: 5px;">New registrations</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="section-products" class="content-section">
+                <div class="section-header-flex">
+                    <h2 class="section-title">Product Management</h2>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="search-products-input" placeholder="Search products..." style="padding: 8px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-dark); color: white;" onkeyup="filterProducts()">
+                        <button class="btn-primary" onclick="openProductModal()"><i class="fa-solid fa-plus"></i> Add Product</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Products injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="section-users" class="content-section">
+                <div class="section-header-flex">
+                    <h2 class="section-title">User Management</h2>
+                    <input type="text" id="search-users-input" placeholder="Search users..." style="padding: 8px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-dark); color: white;" onkeyup="filterUsers()">
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Users injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Customers Section -->
+            <section id="section-customers" class="content-section">
+                <h2 class="section-title">Customer Management</h2>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name & Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Registered</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-table-body">
+                            <!-- Customers injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="section-orders" class="content-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 class="section-title" style="margin:0;">Order Management</h2>
+                    <div style="display:flex; gap:10px;">
+                        <select id="order-filter" onchange="loadOrders()" style="padding:10px; background:var(--bg-color); color:var(--text-color); border:1px solid var(--border-color); border-radius:5px;">
+                            <option value="all">All Orders</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Products</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- Orders injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Payment Gateways Section -->
+            <section id="section-payments" class="content-section">
+                <h2 class="section-title">Payment Gateway Settings</h2>
+                <p style="margin-bottom: 20px; color:var(--text-muted);">Manage your active payment methods and secret credentials.</p>
+                <div class="form-container" style="max-width: 800px;">
+                    
+                    <form onsubmit="savePaymentSettings(event, 'razorpay')" style="margin-bottom:30px; padding:20px; border:1px solid var(--border-color); border-radius:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h3 style="color:var(--gold);">Razorpay Settings</h3>
+                            <label><input type="checkbox" id="rzp-enabled"> Enable Razorpay</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Key ID</label><input type="text" id="rzp-key" placeholder="rzp_test_..."></div>
+                            <div class="form-group"><label>Secret Key</label><input type="password" id="rzp-secret" placeholder="••••••••••••••••"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Mode</label>
+                            <select id="rzp-mode">
+                                <option value="test">Test Mode</option>
+                                <option value="live">Live Mode</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Razorpay Settings</button>
+                    </form>
+
+                    <form onsubmit="savePaymentSettings(event, 'cashfree')" style="margin-bottom:30px; padding:20px; border:1px solid var(--border-color); border-radius:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h3 style="color:var(--gold);">Cashfree Settings</h3>
+                            <label><input type="checkbox" id="cf-enabled"> Enable Cashfree</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>App ID / Client ID</label><input type="text" id="cf-key"></div>
+                            <div class="form-group"><label>Secret Key</label><input type="password" id="cf-secret" placeholder="••••••••••••••••"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Mode</label>
+                            <select id="cf-mode">
+                                <option value="test">Test Mode</option>
+                                <option value="live">Production Mode</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Cashfree Settings</button>
+                    </form>
+
+                    <form onsubmit="savePaymentSettings(event, 'cod')" style="padding:20px; border:1px solid var(--border-color); border-radius:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h3 style="color:var(--gold);">Cash on Delivery (COD)</h3>
+                            <label><input type="checkbox" id="cod-enabled"> Enable COD</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Optional COD Charge (₹)</label><input type="number" id="cod-charge" value="0"></div>
+                            <div class="form-group"><label>Maximum Order Amount for COD</label><input type="number" id="cod-max" value="500000"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Save COD Settings</button>
+                    </form>
+
+                </div>
+            </section>
+
+            <!-- CMS Section -->
+            <section id="section-cms" class="content-section">
+                <h2 class="section-title">Content Management System</h2>
+                <p style="margin-bottom: 20px;">Manage website text and promotional content here.</p>
+                <div class="form-container">
+                    <form onsubmit="saveCMS(event)">
+                        <div class="form-group">
+                            <label>Homepage Hero Heading</label>
+                            <input type="text" id="cms-hero-title" value="Time, Designed for You.">
+                        </div>
+                        <div class="form-group">
+                            <label>Homepage Hero Subtitle</label>
+                            <textarea id="cms-hero-sub" rows="2">Discover our exclusive collection of premium luxury timepieces. Crafted with precision, elegance, and perfection.</textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Update Website Content</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Config Section -->
+            <section id="section-config" class="content-section">
+                <h2 class="section-title">Website Configuration</h2>
+                <div class="form-container">
+                    <form onsubmit="saveConfig(event)">
+                        <div class="form-row">
+                            <div class="form-group"><label>Brand Name</label><input type="text" id="config-brand" value="AETHER"></div>
+                            <div class="form-group"><label>Currency</label><input type="text" id="config-currency" value="INR (₹)"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Contact Email</label><input type="email" id="config-email" value="support@aether.com"></div>
+                            <div class="form-group"><label>Phone Number</label><input type="text" id="config-phone" value="+91 98765 43210"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Social Media (Instagram)</label>
+                            <input type="url" id="config-insta" value="https://instagram.com/aether">
+                        </div>
+                        <button type="submit" class="btn-primary">Save Configuration</button>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Admin Profile Section -->
+            <section id="section-profile" class="content-section">
+                <h2 class="section-title">Admin Profile</h2>
+                <div class="form-container" style="max-width: 600px;">
+                    <div style="text-align:center; padding-bottom:20px; margin-bottom:20px; border-bottom:1px solid var(--border-color);">
+                        <i class="fa-solid fa-user-shield" style="font-size: 4rem; color: var(--gold); margin-bottom: 15px;"></i>
+                        <h3>Administrator Account</h3>
+                    </div>
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="text" id="profile-email" readonly style="background: rgba(255,255,255,0.05);">
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <input type="text" value="Super Admin" readonly style="background: rgba(255,255,255,0.05);">
+                    </div>
+                    <button type="button" class="btn-outline" onclick="handleAdminLogout()">Logout securely</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+            <h3 id="modal-title" style="margin-bottom: 20px;">Add Product</h3>
+            <form id="product-form" onsubmit="saveProduct(event)">
+                <input type="hidden" id="p-id">
+                <div class="form-row">
+                    <div class="form-group"><label>Product Name</label><input type="text" id="p-name" required></div>
+                    <div class="form-group"><label>Price (₹)</label><input type="number" id="p-price" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Discount Price (₹)</label><input type="number" id="p-discount-price"></div>
+                    <div class="form-group"><label>Stock Quantity</label><input type="number" id="p-stock" value="10" required></div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="p-desc" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Category</label><input type="text" id="p-cat" required></div>
+                    <div class="form-group"><label>Gender</label>
+                        <select id="p-gender" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Unisex">Unisex</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Color</label><input type="text" id="p-color"></div>
+                    <div class="form-group"><label>Strap</label><input type="text" id="p-strap"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Style</label><input type="text" id="p-style"></div>
+                    <div class="form-group"><label>Rating (0-5)</label><input type="number" step="0.1" max="5" min="0" id="p-rating" value="5.0"></div>
+                </div>
+                <div class="form-group">
+                    <label>Product Image URL</label>
+                    <input type="url" id="p-img" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><input type="checkbox" id="p-isnew"> New Arrival</label>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" id="p-isbest"> Best Seller</label>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" id="p-active" checked> Product Status (Active)</label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-outline" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/supabase-init.js"></script>
+    <script defer src="/admin/admin.js"></script>
+</body>
+</html>
