@@ -1,4 +1,4 @@
-import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/admin`)&&!window.location.pathname.includes(`.html`))throw sessionStorage.setItem(`admin_intended_path`,window.location.pathname),window.location.href=`/admin/index.html`,Error(`Admin Route Intercepted - Redirecting to real file`);function e(){let e=document.getElementById(`main-content`);switch(e.innerHTML=``,window.scrollTo(0,0),state.currentPage){case`home`:e.innerHTML=t();break;case`shop`:e.innerHTML=n();break;case`cart`:e.innerHTML=r();break;case`wishlist`:e.innerHTML=i();break;case`login`:e.innerHTML=a();break;case`register`:e.innerHTML=v();break;case`checkout`:e.innerHTML=renderCheckout();break;case`order-success`:e.innerHTML=renderOrderSuccess();break;case`my-orders`:e.innerHTML=renderMyOrders();break;case`dashboard`:e.innerHTML=S();break;case`product`:e.innerHTML=E();break;default:e.innerHTML=t()}m()}function t(){return`
+import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/admin`)&&!window.location.pathname.includes(`.html`))throw sessionStorage.setItem(`admin_intended_path`,window.location.pathname),window.location.href=`/admin/index.html`,Error(`Admin Route Intercepted - Redirecting to real file`);var e=[],t={cart:[],wishlist:[],user:null,currentPage:`home`,searchQuery:``,filters:{category:`All`,gender:`All`,price:`All`,color:`All`},checkoutItems:null};function n(){let e=document.getElementById(`main-content`);switch(e.innerHTML=``,window.scrollTo(0,0),t.currentPage){case`home`:e.innerHTML=r();break;case`shop`:e.innerHTML=i();break;case`cart`:e.innerHTML=a();break;case`wishlist`:e.innerHTML=o();break;case`login`:e.innerHTML=s();break;case`register`:e.innerHTML=b();break;case`checkout`:e.innerHTML=renderCheckout();break;case`order-success`:e.innerHTML=renderOrderSuccess();break;case`my-orders`:e.innerHTML=renderMyOrders();break;case`dashboard`:e.innerHTML=w();break;case`product`:e.innerHTML=O();break;default:e.innerHTML=r()}g()}function r(){return`
         <section class="hero">
             <div class="hero-content">
                 <h1 class="title-xl">Time, Designed for You.</h1>
@@ -16,11 +16,11 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     <h2 class="title-lg">Featured Masterpieces</h2>
                 </div>
                 <div class="grid">
-                    ${products.slice(0,3).map(e=>o(e)).join(``)}
+                    ${e.slice(0,3).map(e=>c(e)).join(``)}
                 </div>
             </div>
         </section>
-    `}function n(){return`
+    `}function i(){return`
         <section class="section">
             <div class="page-container shop-layout">
                 <aside class="filters-sidebar">
@@ -47,23 +47,23 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                         </select>
                     </div>
                     <div class="grid">
-                        ${products.map(e=>o(e)).join(``)}
+                        ${e.map(e=>c(e)).join(``)}
                     </div>
                 </div>
             </div>
         </section>
-    `}function r(){if(state.cart.length===0)return`
+    `}function a(){if(t.cart.length===0)return`
             <section class="section page-container" style="text-align:center; padding-top:100px;">
                 <h2 class="title-lg">Your Cart is Empty</h2>
                 <p style="margin:20px 0; color:var(--text-muted);">Explore our collection to find your perfect timepiece.</p>
                 <button class="btn-primary" onclick="navigate('shop')">Continue Shopping</button>
             </section>
-        `;let e=state.cart.reduce((e,t)=>e+t.price*t.quantity,0);return`
+        `;let e=t.cart.reduce((e,t)=>e+t.price*t.quantity,0);return`
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">Shopping Cart</h2>
             <div class="shop-layout">
                 <div>
-                    ${state.cart.map(e=>`
+                    ${t.cart.map(e=>`
                         <div style="display:flex; gap:20px; background:var(--card-bg); padding:20px; margin-bottom:15px; border:1px solid var(--border-color);">
                             <img src="${e.image}" style="width:100px; height:100px; object-fit:cover;">
                             <div>
@@ -94,7 +94,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
         </section>
-    `}function i(){return state.wishlist.length===0?`
+    `}function o(){return t.wishlist.length===0?`
             <section class="section page-container" style="text-align:center; padding-top:100px;">
                 <h2 class="title-lg">Your Wishlist is Empty</h2>
                 <p style="margin:20px 0; color:var(--text-muted);">Save items you love here.</p>
@@ -104,10 +104,10 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">Your Wishlist</h2>
             <div class="grid">
-                ${state.wishlist.map(e=>o(products.find(t=>t.id===e))).join(``)}
+                ${t.wishlist.map(t=>c(e.find(e=>e.id===t))).join(``)}
             </div>
         </section>
-    `}function a(){return`
+    `}function s(){return`
         <section class="section page-container">
             <div class="auth-container">
                 <h2 class="title-md" style="text-align:center; margin-bottom:30px;">Sign In</h2>
@@ -124,10 +124,10 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
         </section>
-    `}function o(e){let t=state.wishlist.includes(e.id);return`
+    `}function c(e){let n=t.wishlist.includes(e.id);return`
         <div class="product-card">
-            <button class="wishlist-btn ${t?`active`:``}" onclick="toggleWishlist('${e.id}', event)">
-                <i class="${t?`fa-solid`:`fa-regular`} fa-heart"></i>
+            <button class="wishlist-btn ${n?`active`:``}" onclick="toggleWishlist('${e.id}', event)">
+                <i class="${n?`fa-solid`:`fa-regular`} fa-heart"></i>
             </button>
             <div class="product-img-wrapper" onclick="navigate('shop')">
                 <img src="${e.image}" class="product-img" alt="${e.name}">
@@ -143,15 +143,15 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
         </div>
-    `}function s(t){state.currentPage=t,e()}function c(e){let t=products.find(t=>t.id===e),n=state.cart.find(t=>t.id===e);n?n.quantity+=1:state.cart.push({...t,quantity:1}),m(),alert(t.name+` added to cart!`)}function l(e){if(!state.user){alert(`Please login to place an order.`),s(`login`);return}let t=products.find(t=>t.id===e);state.checkoutItems=[{...t,quantity:1}],s(`checkout`)}function u(){if(!state.user){alert(`Please login to checkout.`),s(`login`);return}state.cart.length!==0&&(state.checkoutItems=[...state.cart],s(`checkout`))}function d(t){state.cart=state.cart.filter(e=>e.id!==t),state.currentPage===`cart`&&e(),m()}function f(t,n){n&&n.stopPropagation();let r=state.wishlist.indexOf(t);r>-1?state.wishlist.splice(r,1):state.wishlist.push(t),e()}async function p(){let e=document.getElementById(`login-email`).value.trim(),t=document.getElementById(`login-password`).value;if(!e||!t){alert(`Please enter both email and password.`);return}let n=document.getElementById(`btn-login`),r=n.innerHTML;n.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Logging in...`,n.disabled=!0;try{let{data:n,error:r}=await window.supabaseClient.auth.signInWithPassword({email:e,password:t});if(r)throw r;let{data:i}=await window.supabaseClient.from(`profiles`).select(`*`).eq(`id`,n.user.id).single();state.user={id:n.user.id,name:(i?.first_name||``)+` `+(i?.last_name||``),email:n.user.email,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(i?.first_name||n.user.email)+`&background=d4af37&color=000`},s(`home`)}catch(e){alert(e.message)}finally{n.innerHTML=r,n.disabled=!1}}function m(){let e=state.cart.reduce((e,t)=>e+t.quantity,0);document.getElementById(`cart-count`).innerText=e;let t=document.getElementById(`auth-btn-group`);t&&(state.user?(t.onclick=null,t.innerHTML=`
+    `}function l(e){t.currentPage=e,n()}function u(n){let r=e.find(e=>e.id===n),i=t.cart.find(e=>e.id===n);i?i.quantity+=1:t.cart.push({...r,quantity:1}),g(),alert(r.name+` added to cart!`)}function d(n){if(!t.user){alert(`Please login to place an order.`),l(`login`);return}t.checkoutItems=[{...e.find(e=>e.id===n),quantity:1}],l(`checkout`)}function f(){if(!t.user){alert(`Please login to checkout.`),l(`login`);return}t.cart.length!==0&&(t.checkoutItems=[...t.cart],l(`checkout`))}function p(e){t.cart=t.cart.filter(t=>t.id!==e),t.currentPage===`cart`&&n(),g()}function m(e,r){r&&r.stopPropagation();let i=t.wishlist.indexOf(e);i>-1?t.wishlist.splice(i,1):t.wishlist.push(e),n()}async function h(){let e=document.getElementById(`login-email`).value.trim(),n=document.getElementById(`login-password`).value;if(!e||!n){alert(`Please enter both email and password.`);return}let r=document.getElementById(`btn-login`),i=r.innerHTML;r.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Logging in...`,r.disabled=!0;try{let{data:r,error:i}=await window.supabaseClient.auth.signInWithPassword({email:e,password:n});if(i)throw i;let{data:a}=await window.supabaseClient.from(`profiles`).select(`*`).eq(`id`,r.user.id).single();t.user={id:r.user.id,name:(a?.first_name||``)+` `+(a?.last_name||``),email:r.user.email,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(a?.first_name||r.user.email)+`&background=d4af37&color=000`},l(`home`)}catch(e){alert(e.message)}finally{r.innerHTML=i,r.disabled=!1}}function g(){let e=t.cart.reduce((e,t)=>e+t.quantity,0);document.getElementById(`cart-count`).innerText=e;let n=document.getElementById(`auth-btn-group`);n&&(t.user?(n.onclick=null,n.innerHTML=`
             <div class="profile-dropdown-container" onclick="toggleDropdown(event)">
-                <img src="${state.user.avatar}" alt="User" class="nav-avatar">
+                <img src="${t.user.avatar}" alt="User" class="nav-avatar">
                 <div class="profile-dropdown" id="profile-dropdown">
                     <div class="dropdown-header">
-                        <img src="${state.user.avatar}" alt="User" class="dropdown-avatar">
+                        <img src="${t.user.avatar}" alt="User" class="dropdown-avatar">
                         <div class="dropdown-user-info">
-                            <span class="dropdown-name">${state.user.name}</span>
-                            <span class="dropdown-email">${state.user.email}</span>
+                            <span class="dropdown-name">${t.user.name}</span>
+                            <span class="dropdown-email">${t.user.email}</span>
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
@@ -163,7 +163,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
             <a href="/admin/login" class="login-text" style="text-decoration:none; color:var(--text-muted); margin-left:15px;">Admin</a>
-        `):(t.onclick=null,t.innerHTML=`
+        `):(n.onclick=null,n.innerHTML=`
             <!-- Desktop Auth Links -->
             <a href="#" onclick="navigate('login'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Login</a>
             <a href="#" onclick="navigate('register'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Sign Up</a>
@@ -171,7 +171,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
             
             <!-- Mobile fallback icon -->
             <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')"></i>
-        `))}function h(e){e.stopPropagation();let t=document.getElementById(`profile-dropdown`);t&&t.classList.toggle(`show`)}async function g(){window.supabaseClient&&await window.supabaseClient.auth.signOut(),state.user=null,s(`home`)}document.addEventListener(`click`,function(e){let t=document.getElementById(`profile-dropdown`);t&&t.classList.contains(`show`)&&t.classList.remove(`show`)});var _;function v(){return`
+        `))}function _(e){e.stopPropagation();let t=document.getElementById(`profile-dropdown`);t&&t.classList.toggle(`show`)}async function v(){window.supabaseClient&&await window.supabaseClient.auth.signOut(),t.user=null,l(`home`)}document.addEventListener(`click`,function(e){let t=document.getElementById(`profile-dropdown`);t&&t.classList.contains(`show`)&&t.classList.remove(`show`)});var y;function b(){return`
         <section class="section page-container">
             <div class="auth-container" style="max-width: 500px;" id="register-container">
                 <h2 class="title-md" style="text-align:center; margin-bottom:30px;">Create Account</h2>
@@ -216,15 +216,15 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
         </section>
-    `}async function y(){let e=document.getElementById(`reg-name`).value.trim(),t=document.getElementById(`reg-mobile`).value.trim(),n=document.getElementById(`reg-email`).value.trim(),r=document.getElementById(`reg-password`).value,i=document.getElementById(`reg-address`).value.trim(),a=document.getElementById(`reg-city`).value.trim(),o=document.getElementById(`reg-state`).value.trim(),s=document.getElementById(`reg-pin`).value.trim();if(!e||!t||!n||!r||!i||!a||!o||!s){alert(`Please fill in all required fields.`);return}if(e.length<2||/^[0-9]+$/.test(e)||/^[^a-zA-Z0-9]+$/.test(e)){alert(`Please enter a valid full name.`);return}if(!/^[6-9]\d{9}$/.test(t)){alert(`Please enter a valid 10-digit Indian mobile number.`);return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(n)){alert(`Please enter a valid email address.`);return}if(!/^\d{6}$/.test(s)){alert(`Please enter a valid 6-digit PIN code.`);return}let c=document.getElementById(`btn-register`),l=c.innerHTML;c.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Creating Account...`,c.disabled=!0;try{if(!window.supabaseClient)throw Error(`Database connection not established. Please try again later.`);let{data:c,error:l}=await window.supabaseClient.auth.signUp({email:n,password:r,options:{data:{first_name:e.split(` `)[0],last_name:e.split(` `).slice(1).join(` `),phone:t,address_street:i,address_city:a,address_state:o,address_pin:s}}});if(l)throw l;if(c.user&&c.user.identities&&c.user.identities.length===0)throw Error(`An account with this email already exists. Please sign in.`);document.getElementById(`registration-form`).style.display=`none`,document.getElementById(`verification-message`).style.display=`block`}catch(e){alert(e.message),c.innerHTML=l,c.disabled=!1}}function b(){let e=document.getElementById(`reg-otp`).value,t=document.getElementById(`btn-verify-otp`);if(!e){alert(`Please enter the OTP.`);return}t.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...`,t.disabled=!0,setTimeout(()=>{if(!state.currentOTP||Date.now()>state.otpExpiry){alert(`OTP has expired. Please click Resend OTP to get a new one.`),t.innerHTML=`Verify & Create Account`,t.disabled=!1;return}if(e===state.currentOTP){clearInterval(_);let e={id:`USER_`+Math.random().toString(36).substr(2,9).toUpperCase(),...state.pendingRegistration,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(state.pendingRegistration.name)+`&background=d4af37&color=000`,createdAt:new Date().toISOString()},t=JSON.parse(localStorage.getItem(`aether_users`)||`[]`);t.push(e),localStorage.setItem(`aether_users`,JSON.stringify(t)),state.user=e,state.currentOTP=null,state.pendingRegistration=null,alert(`Account verified and created successfully!`),s(`dashboard`)}else alert(`Incorrect OTP. Please check the code and try again.`),t.innerHTML=`Verify & Create Account`,t.disabled=!1},800)}function x(){clearInterval(_),document.getElementById(`otp-verification`).style.display=`none`,document.getElementById(`registration-form`).style.display=`block`}function S(){return state.user?`
+    `}async function x(){let e=document.getElementById(`reg-name`).value.trim(),t=document.getElementById(`reg-mobile`).value.trim(),n=document.getElementById(`reg-email`).value.trim(),r=document.getElementById(`reg-password`).value,i=document.getElementById(`reg-address`).value.trim(),a=document.getElementById(`reg-city`).value.trim(),o=document.getElementById(`reg-state`).value.trim(),s=document.getElementById(`reg-pin`).value.trim();if(!e||!t||!n||!r||!i||!a||!o||!s){alert(`Please fill in all required fields.`);return}if(e.length<2||/^[0-9]+$/.test(e)||/^[^a-zA-Z0-9]+$/.test(e)){alert(`Please enter a valid full name.`);return}if(!/^[6-9]\d{9}$/.test(t)){alert(`Please enter a valid 10-digit Indian mobile number.`);return}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(n)){alert(`Please enter a valid email address.`);return}if(!/^\d{6}$/.test(s)){alert(`Please enter a valid 6-digit PIN code.`);return}let c=document.getElementById(`btn-register`),l=c.innerHTML;c.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Creating Account...`,c.disabled=!0;try{if(!window.supabaseClient)throw Error(`Database connection not established. Please try again later.`);let{data:c,error:l}=await window.supabaseClient.auth.signUp({email:n,password:r,options:{data:{first_name:e.split(` `)[0],last_name:e.split(` `).slice(1).join(` `),phone:t,address_street:i,address_city:a,address_state:o,address_pin:s}}});if(l)throw l;if(c.user&&c.user.identities&&c.user.identities.length===0)throw Error(`An account with this email already exists. Please sign in.`);document.getElementById(`registration-form`).style.display=`none`,document.getElementById(`verification-message`).style.display=`block`}catch(e){alert(e.message),c.innerHTML=l,c.disabled=!1}}function S(){let e=document.getElementById(`reg-otp`).value,n=document.getElementById(`btn-verify-otp`);if(!e){alert(`Please enter the OTP.`);return}n.innerHTML=`<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...`,n.disabled=!0,setTimeout(()=>{if(!t.currentOTP||Date.now()>t.otpExpiry){alert(`OTP has expired. Please click Resend OTP to get a new one.`),n.innerHTML=`Verify & Create Account`,n.disabled=!1;return}if(e===t.currentOTP){clearInterval(y);let e={id:`USER_`+Math.random().toString(36).substr(2,9).toUpperCase(),...t.pendingRegistration,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(t.pendingRegistration.name)+`&background=d4af37&color=000`,createdAt:new Date().toISOString()},n=JSON.parse(localStorage.getItem(`aether_users`)||`[]`);n.push(e),localStorage.setItem(`aether_users`,JSON.stringify(n)),t.user=e,t.currentOTP=null,t.pendingRegistration=null,alert(`Account verified and created successfully!`),l(`dashboard`)}else alert(`Incorrect OTP. Please check the code and try again.`),n.innerHTML=`Verify & Create Account`,n.disabled=!1},800)}function C(){clearInterval(y),document.getElementById(`otp-verification`).style.display=`none`,document.getElementById(`registration-form`).style.display=`block`}function w(){return t.user?`
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">My Dashboard</h2>
             <div class="shop-layout">
                 <aside class="filters-sidebar">
                     <div style="text-align:center; padding-bottom:20px; border-bottom:1px solid var(--border-color); margin-bottom:20px;">
-                        <img src="${state.user.avatar}" style="width:100px; height:100px; border-radius:50%; border:2px solid var(--gold); margin-bottom:15px;">
-                        <h3 style="font-size:1.2rem;">${state.user.name}</h3>
-                        <p style="color:var(--text-muted); font-size:0.9rem;">${state.user.mobile}</p>
+                        <img src="${t.user.avatar}" style="width:100px; height:100px; border-radius:50%; border:2px solid var(--gold); margin-bottom:15px;">
+                        <h3 style="font-size:1.2rem;">${t.user.name}</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem;">${t.user.mobile}</p>
                     </div>
                     <div class="filter-group">
                         <label style="color:var(--gold);"><i class="fa-regular fa-user" style="width:20px;"></i> My Profile</label>
@@ -240,19 +240,19 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:30px;">
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Full Name</p>
-                            <p style="font-size:1.1rem;">${state.user.name}</p>
+                            <p style="font-size:1.1rem;">${t.user.name}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Mobile Number</p>
-                            <p style="font-size:1.1rem;">${state.user.mobile}</p>
+                            <p style="font-size:1.1rem;">${t.user.mobile}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Email Address</p>
-                            <p style="font-size:1.1rem;">${state.user.email||`N/A`}</p>
+                            <p style="font-size:1.1rem;">${t.user.email||`N/A`}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">User ID</p>
-                            <p style="font-size:1.1rem; font-family:monospace; color:var(--gold);">${state.user.id}</p>
+                            <p style="font-size:1.1rem; font-family:monospace; color:var(--gold);">${t.user.id}</p>
                         </div>
                     </div>
                     
@@ -261,21 +261,21 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                         <div style="grid-column: 1 / -1;">
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Complete Address</p>
-                            <p style="font-size:1.1rem;">${state.user.address}</p>
+                            <p style="font-size:1.1rem;">${t.user.address}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">City</p>
-                            <p style="font-size:1.1rem;">${state.user.city}</p>
+                            <p style="font-size:1.1rem;">${t.user.city}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">State & PIN</p>
-                            <p style="font-size:1.1rem;">${state.user.state} - ${state.user.pin}</p>
+                            <p style="font-size:1.1rem;">${t.user.state} - ${t.user.pin}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    `:(setTimeout(()=>s(`login`),0),``)}function C(){let e=document.getElementById(`search-overlay`);if(e){if(e.classList.toggle(`active`),e.classList.contains(`active`)){let e=document.getElementById(`search-input`);e&&(e.value=``,e.focus());let t=document.getElementById(`search-results`);t&&(t.innerHTML=``),document.body.style.overflow=`hidden`}else document.body.style.overflow=`auto`}}function w(e){let t=e.target.value.toLowerCase().trim(),n=document.getElementById(`search-results`);if(t.length===0){n.innerHTML=``;return}let r=products.filter(e=>e.name.toLowerCase().includes(t)||e.category.toLowerCase().includes(t)||e.style.toLowerCase().includes(t));n.innerHTML=r.length===0?`<div class="search-no-results">No watches found.</div>`:r.map(e=>`
+    `:(setTimeout(()=>l(`login`),0),``)}function T(){let e=document.getElementById(`search-overlay`);if(e){if(e.classList.toggle(`active`),e.classList.contains(`active`)){let e=document.getElementById(`search-input`);e&&(e.value=``,e.focus());let t=document.getElementById(`search-results`);t&&(t.innerHTML=``),document.body.style.overflow=`hidden`}else document.body.style.overflow=`auto`}}function E(t){let n=t.target.value.toLowerCase().trim(),r=document.getElementById(`search-results`);if(n.length===0){r.innerHTML=``;return}let i=e.filter(e=>e.name.toLowerCase().includes(n)||e.category.toLowerCase().includes(n)||e.style.toLowerCase().includes(n));r.innerHTML=i.length===0?`<div class="search-no-results">No watches found.</div>`:i.map(e=>`
             <div class="search-result-item">
                 <img src="${e.image}" class="search-result-img" alt="${e.name}">
                 <div class="search-result-info">
@@ -284,7 +284,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
                 <button class="btn-outline" onclick="viewProduct('${e.id}')">View Product</button>
             </div>
-        `).join(``)}function T(e){C(),state.currentProduct=products.find(t=>t.id===e),s(`product`)}function E(){if(!state.currentProduct)return setTimeout(()=>s(`shop`),0),``;let e=state.currentProduct;return`
+        `).join(``)}function D(n){T(),t.currentProduct=e.find(e=>e.id===n),l(`product`)}function O(){if(!t.currentProduct)return setTimeout(()=>l(`shop`),0),``;let e=t.currentProduct;return`
         <section class="section page-container">
             <div class="shop-layout" style="grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px;">
                 <div style="background: rgba(255,255,255,0.02); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
@@ -313,8 +313,8 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     </div>
                     <div style="display: flex; gap: 20px; margin-bottom: 40px;">
                         <button class="btn-outline" style="flex: 1; padding: 15px;" onclick="toggleWishlist('${e.id}', event)">
-                            <i class="${state.wishlist.includes(e.id)?`fa-solid`:`fa-regular`} fa-heart"></i> 
-                            ${state.wishlist.includes(e.id)?`Saved`:`Wishlist`}
+                            <i class="${t.wishlist.includes(e.id)?`fa-solid`:`fa-regular`} fa-heart"></i> 
+                            ${t.wishlist.includes(e.id)?`Saved`:`Wishlist`}
                         </button>
                     </div>
                     
@@ -330,7 +330,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                 </div>
             </div>
         </section>
-    `}window.renderCheckout=function(){if(!state.user)return s(`login`),``;let e=state.checkoutItems||[];if(e.length===0)return`<section class="section page-container"><h2 class="title-lg">No items to checkout</h2><button class="btn-primary" onclick="navigate('shop')">Shop</button></section>`;let t=e.reduce((e,t)=>e+t.price*t.quantity,0),n=t+0;return`
+    `}window.renderCheckout=function(){if(!t.user)return l(`login`),``;let e=t.checkoutItems||[];if(e.length===0)return`<section class="section page-container"><h2 class="title-lg">No items to checkout</h2><button class="btn-primary" onclick="navigate('shop')">Shop</button></section>`;let n=e.reduce((e,t)=>e+t.price*t.quantity,0),r=n+0;return`
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">Checkout</h2>
             <div class="shop-layout">
@@ -339,33 +339,33 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     <form id="checkout-form" onsubmit="handlePlaceOrder(event)" style="margin-top:20px;">
                         <div class="form-group">
                             <label>Full Name</label>
-                            <input type="text" id="chk-name" required value="${state.user.user_metadata?.first_name||``} ${state.user.user_metadata?.last_name||``}">
+                            <input type="text" id="chk-name" required value="${t.user.user_metadata?.first_name||``} ${t.user.user_metadata?.last_name||``}">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" id="chk-email" required value="${state.user.email||``}">
+                            <input type="email" id="chk-email" required value="${t.user.email||``}">
                         </div>
                         <div class="form-group">
                             <label>Phone Number (10 digits)</label>
-                            <input type="tel" id="chk-phone" pattern="[0-9]{10}" required value="${state.user.user_metadata?.phone||``}">
+                            <input type="tel" id="chk-phone" pattern="[0-9]{10}" required value="${t.user.user_metadata?.phone||``}">
                         </div>
                         <div class="form-group">
                             <label>Complete Address</label>
-                            <input type="text" id="chk-address" required value="${state.user.user_metadata?.address_street||``}">
+                            <input type="text" id="chk-address" required value="${t.user.user_metadata?.address_street||``}">
                         </div>
                         <div style="display:flex; gap:10px;">
                             <div class="form-group" style="flex:1;">
                                 <label>City</label>
-                                <input type="text" id="chk-city" required value="${state.user.user_metadata?.address_city||``}">
+                                <input type="text" id="chk-city" required value="${t.user.user_metadata?.address_city||``}">
                             </div>
                             <div class="form-group" style="flex:1;">
                                 <label>State</label>
-                                <input type="text" id="chk-state" required value="${state.user.user_metadata?.address_state||``}">
+                                <input type="text" id="chk-state" required value="${t.user.user_metadata?.address_state||``}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>PIN Code</label>
-                            <input type="text" id="chk-pin" pattern="[0-9]{6}" required value="${state.user.user_metadata?.address_pin||``}">
+                            <input type="text" id="chk-pin" pattern="[0-9]{6}" required value="${t.user.user_metadata?.address_pin||``}">
                         </div>
                         
                         <h3 style="margin-top:30px; margin-bottom:15px;">Payment Method</h3>
@@ -395,7 +395,7 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     `).join(``)}
                     <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
                         <span>Subtotal</span>
-                        <span>₹${t.toLocaleString(`en-IN`)}</span>
+                        <span>₹${n.toLocaleString(`en-IN`)}</span>
                     </div>
                     <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                         <span>Shipping</span>
@@ -403,24 +403,24 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     </div>
                     <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; border-top:1px solid var(--border-color); padding-top:20px;">
                         <span>Total</span>
-                        <span>₹${n.toLocaleString(`en-IN`)}</span>
+                        <span>₹${r.toLocaleString(`en-IN`)}</span>
                     </div>
                 </div>
             </div>
         </section>
-    `},window.handlePlaceOrder=async function(e){e.preventDefault();let t=document.getElementById(`btn-place-order`);t.innerText=`Processing...`,t.disabled=!0;try{let{data:e}=await window.supabaseClient.auth.getSession();if(!e||!e.session){alert(`Please login before placing your order.`),t.innerHTML=`Place Order`,t.disabled=!1;return}let n=document.getElementById(`chk-name`).value.trim(),r=document.getElementById(`chk-email`).value.trim(),i=document.getElementById(`chk-phone`).value.trim(),a=document.getElementById(`chk-address`).value.trim(),o=document.getElementById(`chk-city`).value.trim(),c=document.getElementById(`chk-state`).value.trim(),l=document.getElementById(`chk-pin`).value.trim();if(!n||!r||!i||!a||!o||!c||!l)throw Error(`Please fill in all required fields.`);if(!/^[6-9]\d{9}$/.test(i))throw Error(`Please enter a valid 10-digit Indian mobile number.`);if(!/^\d{6}$/.test(l))throw Error(`Please enter a valid 6-digit PIN code.`);let u={customer_name:n,customer_email:r,customer_phone:i,shipping_address:a,city:o,state:c,pincode:l,payment_method:document.querySelector(`input[name="payment_method"]:checked`).value,items:state.checkoutItems,subtotal:state.checkoutItems.reduce((e,t)=>e+t.price*t.quantity,0)},d=await fetch(`/api/payment/create-order`,{method:`POST`,headers:{"Content-Type":`application/json`,Authorization:`Bearer ${e.session.access_token}`},body:JSON.stringify(u)}),f={},p=await d.text();if(p)try{f=JSON.parse(p)}catch{console.error(`Failed to parse backend response:`,p)}if(!d.ok)throw console.error(`ORDER CREATION ERROR (Backend):`,f.error||p),Error(f.error||f.message||`Unknown server error during order creation. Check backend logs.`);if(u.payment_method===`cod`)state.cart=[],state.lastOrder=f.order,s(`order-success`);else if(u.payment_method===`razorpay`){window.Razorpay||await new Promise(e=>{let t=document.createElement(`script`);t.src=`https://checkout.razorpay.com/v1/checkout.js`,t.onload=e,document.head.appendChild(t)});let e={key:f.key,amount:f.amount,currency:`INR`,name:`AETHER Watches`,description:`Purchase Order`,order_id:f.gateway_order_id,handler:async function(e){(await(await fetch(`/api/payment/verify/razorpay`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({order_id:f.order.id,razorpay_payment_id:e.razorpay_payment_id,razorpay_order_id:e.razorpay_order_id,razorpay_signature:e.razorpay_signature})})).json()).success?(state.cart=[],state.lastOrder=f.order,s(`order-success`)):alert(`Payment verification failed.`)},prefill:{name:u.customer_name,email:u.customer_email,contact:u.customer_phone},theme:{color:`#d4af37`}},t=new window.Razorpay(e);t.on(`payment.failed`,function(e){alert(`Payment Failed: `+e.error.description)}),t.open()}else if(u.payment_method===`cashfree`){window.Cashfree||await new Promise(e=>{let t=document.createElement(`script`);t.src=`https://sdk.cashfree.com/js/v3/cashfree.js`,t.onload=e,document.head.appendChild(t)});let e=window.Cashfree({mode:f.mode}),n={paymentSessionId:f.payment_session_id,redirectTarget:`_modal`};e.checkout(n).then(e=>{e.error&&(alert(`Payment Error: `+e.error.message),t.innerText=`Place Order`,t.disabled=!1),e.paymentDetails&&fetch(`/api/payment/verify/cashfree`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({order_id:f.order.id})}).then(e=>e.json()).then(e=>{e.success?(state.cart=[],state.lastOrder=f.order,s(`order-success`)):(alert(`Payment verification failed or pending.`),t.innerText=`Place Order`,t.disabled=!1)})})}}catch(e){alert(e.message),t.innerText=`Place Order`,t.disabled=!1}},window.renderOrderSuccess=function(){return`
+    `},window.handlePlaceOrder=async function(e){e.preventDefault();let n=document.getElementById(`btn-place-order`);n.innerText=`Processing...`,n.disabled=!0;try{let{data:e}=await window.supabaseClient.auth.getSession();if(!e||!e.session){alert(`Please login before placing your order.`),n.innerHTML=`Place Order`,n.disabled=!1;return}let r=document.getElementById(`chk-name`).value.trim(),i=document.getElementById(`chk-email`).value.trim(),a=document.getElementById(`chk-phone`).value.trim(),o=document.getElementById(`chk-address`).value.trim(),s=document.getElementById(`chk-city`).value.trim(),c=document.getElementById(`chk-state`).value.trim(),u=document.getElementById(`chk-pin`).value.trim();if(!r||!i||!a||!o||!s||!c||!u)throw Error(`Please fill in all required fields.`);if(!/^[6-9]\d{9}$/.test(a))throw Error(`Please enter a valid 10-digit Indian mobile number.`);if(!/^\d{6}$/.test(u))throw Error(`Please enter a valid 6-digit PIN code.`);let d={customer_name:r,customer_email:i,customer_phone:a,shipping_address:o,city:s,state:c,pincode:u,payment_method:document.querySelector(`input[name="payment_method"]:checked`).value,items:t.checkoutItems,subtotal:t.checkoutItems.reduce((e,t)=>e+t.price*t.quantity,0)},f=await fetch(`/api/payment/create-order`,{method:`POST`,headers:{"Content-Type":`application/json`,Authorization:`Bearer ${e.session.access_token}`},body:JSON.stringify(d)}),p={},m=await f.text();if(m)try{p=JSON.parse(m)}catch{console.error(`Failed to parse backend response:`,m)}if(!f.ok)throw console.error(`ORDER CREATION ERROR (Backend):`,p.error||m),Error(p.error||p.message||`Unknown server error during order creation. Check backend logs.`);if(d.payment_method===`cod`)t.cart=[],t.lastOrder=p.order,l(`order-success`);else if(d.payment_method===`razorpay`){window.Razorpay||await new Promise(e=>{let t=document.createElement(`script`);t.src=`https://checkout.razorpay.com/v1/checkout.js`,t.onload=e,document.head.appendChild(t)});let e={key:p.key,amount:p.amount,currency:`INR`,name:`AETHER Watches`,description:`Purchase Order`,order_id:p.gateway_order_id,handler:async function(e){(await(await fetch(`/api/payment/verify/razorpay`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({order_id:p.order.id,razorpay_payment_id:e.razorpay_payment_id,razorpay_order_id:e.razorpay_order_id,razorpay_signature:e.razorpay_signature})})).json()).success?(t.cart=[],t.lastOrder=p.order,l(`order-success`)):alert(`Payment verification failed.`)},prefill:{name:d.customer_name,email:d.customer_email,contact:d.customer_phone},theme:{color:`#d4af37`}},n=new window.Razorpay(e);n.on(`payment.failed`,function(e){alert(`Payment Failed: `+e.error.description)}),n.open()}else if(d.payment_method===`cashfree`){window.Cashfree||await new Promise(e=>{let t=document.createElement(`script`);t.src=`https://sdk.cashfree.com/js/v3/cashfree.js`,t.onload=e,document.head.appendChild(t)});let e=window.Cashfree({mode:p.mode}),r={paymentSessionId:p.payment_session_id,redirectTarget:`_modal`};e.checkout(r).then(e=>{e.error&&(alert(`Payment Error: `+e.error.message),n.innerText=`Place Order`,n.disabled=!1),e.paymentDetails&&fetch(`/api/payment/verify/cashfree`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({order_id:p.order.id})}).then(e=>e.json()).then(e=>{e.success?(t.cart=[],t.lastOrder=p.order,l(`order-success`)):(alert(`Payment verification failed or pending.`),n.innerText=`Place Order`,n.disabled=!1)})})}}catch(e){alert(e.message),n.innerText=`Place Order`,n.disabled=!1}},window.renderOrderSuccess=function(){return`
         <section class="section page-container" style="text-align:center; padding-top:100px;">
             <i class="fa-solid fa-circle-check" style="font-size:4rem; color:var(--gold); margin-bottom:20px;"></i>
             <h2 class="title-lg">Order Confirmed!</h2>
-            <p style="margin:20px 0; color:var(--text-muted);">Thank you for shopping with AETHER. Your order #${state.lastOrder?.order_number||state.lastOrder?.id?.split(`-`)[0]||``} has been placed successfully.</p>
+            <p style="margin:20px 0; color:var(--text-muted);">Thank you for shopping with AETHER. Your order #${t.lastOrder?.order_number||t.lastOrder?.id?.split(`-`)[0]||``} has been placed successfully.</p>
             <button class="btn-primary" onclick="navigate('my-orders')">View My Orders</button>
         </section>
-    `},window.renderMyOrders=function(){return setTimeout(D,0),`
+    `},window.renderMyOrders=function(){return setTimeout(k,0),`
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">My Orders</h2>
             <div id="my-orders-container">Loading your orders...</div>
         </section>
-    `};async function D(){let e=document.getElementById(`my-orders-container`);if(e)try{let t=await(await fetch(`/api/user/orders`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({user_id:state.user.id})})).json();if(!t||t.length===0){e.innerHTML=`<p>You have no past orders.</p>`;return}e.innerHTML=t.map(e=>`
+    `};async function k(){let e=document.getElementById(`my-orders-container`);if(e)try{let n=await(await fetch(`/api/user/orders`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({user_id:t.user.id})})).json();if(!n||n.length===0){e.innerHTML=`<p>You have no past orders.</p>`;return}e.innerHTML=n.map(e=>`
             <div style="background:var(--card-bg); padding:20px; border:1px solid var(--border-color); margin-bottom:20px;">
                 <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:15px;">
                     <div><strong>Order #${e.order_number||e.id.split(`-`)[0]}</strong></div>
@@ -445,4 +445,4 @@ import"./supabase-init-DwNNH3oa.js";if(window.location.pathname.startsWith(`/adm
                     </div>
                 </div>
             </div>
-        `).join(``)}catch{e.innerHTML=`<p style="color:red;">Error loading orders.</p>`}}document.addEventListener(`DOMContentLoaded`,()=>{let t=!1,n=setTimeout(()=>{t||(t=!0,console.warn(`Supabase init timeout — rendering page without data`),e())},3e3),r=setInterval(async()=>{if(window.supabaseClient){clearInterval(r);try{let e=(await window.supabaseClient.auth.getSession())?.data?.session||null;if(e)try{let{data:t}=await window.supabaseClient.from(`profiles`).select(`*`).eq(`id`,e.user.id).single();t&&t.role===`customer`&&(state.user={id:e.user.id,name:(t.first_name||``)+` `+(t.last_name||``),email:e.user.email,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(t.first_name||e.user.email)+`&background=d4af37&color=000`})}catch(e){console.warn(`Could not load user profile:`,e.message)}}catch(e){console.warn(`Could not check auth session:`,e.message)}try{let{data:e,error:t}=await window.supabaseClient.from(`products`).select(`*`).eq(`is_active`,!0);e&&!t?products=e.map(e=>({...e,image:e.image_url||`https://via.placeholder.com/300`})):t&&console.warn(`Could not fetch products:`,t.message)}catch(e){console.warn(`Products fetch failed:`,e.message)}t||(t=!0,clearTimeout(n),e())}},100)}),window.navigate=s,window.toggleSearch=C,window.handleSearch=w,window.addToCart=c,window.buyNow=l,window.checkoutCart=u,window.removeFromCart=d,window.toggleWishlist=f,window.handleLogin=p,window.handleLogout=g,window.handleRegister=y,window.handleVerifyOTP=b,window.editMobileNumber=x,window.toggleDropdown=h,window.viewProduct=T,window.loadMyOrders=D;
+        `).join(``)}catch{e.innerHTML=`<p style="color:red;">Error loading orders.</p>`}}document.addEventListener(`DOMContentLoaded`,()=>{let r=!1,i=setTimeout(()=>{r||(r=!0,console.warn(`Supabase init timeout — rendering page without data`),n())},3e3),a=setInterval(async()=>{if(window.supabaseClient){clearInterval(a);try{let e=(await window.supabaseClient.auth.getSession())?.data?.session||null;if(e)try{let{data:n}=await window.supabaseClient.from(`profiles`).select(`*`).eq(`id`,e.user.id).single();n&&n.role===`customer`&&(t.user={id:e.user.id,name:(n.first_name||``)+` `+(n.last_name||``),email:e.user.email,avatar:`https://ui-avatars.com/api/?name=`+encodeURIComponent(n.first_name||e.user.email)+`&background=d4af37&color=000`})}catch(e){console.warn(`Could not load user profile:`,e.message)}}catch(e){console.warn(`Could not check auth session:`,e.message)}try{let{data:t,error:n}=await window.supabaseClient.from(`products`).select(`*`).eq(`is_active`,!0);t&&!n?e=t.map(e=>({...e,image:e.image_url||`https://via.placeholder.com/300`})):n&&console.warn(`Could not fetch products:`,n.message)}catch(e){console.warn(`Products fetch failed:`,e.message)}r||(r=!0,clearTimeout(i),n())}},100)}),window.navigate=l,window.toggleSearch=T,window.handleSearch=E,window.addToCart=u,window.buyNow=d,window.checkoutCart=f,window.removeFromCart=p,window.toggleWishlist=m,window.handleLogin=h,window.handleLogout=v,window.handleRegister=x,window.handleVerifyOTP=S,window.editMobileNumber=C,window.toggleDropdown=_,window.viewProduct=D,window.loadMyOrders=k;

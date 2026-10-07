@@ -5,6 +5,24 @@ if (window.location.pathname.startsWith('/admin') && !window.location.pathname.i
     throw new Error('Admin Route Intercepted - Redirecting to real file');
 }
 
+// App State (formerly data.js - merged here so both are in the same ES module scope)
+let products = [];
+
+const state = {
+    cart: [],
+    wishlist: [],
+    user: null,
+    currentPage: 'home',
+    searchQuery: '',
+    filters: {
+        category: 'All',
+        gender: 'All',
+        price: 'All',
+        color: 'All'
+    },
+    checkoutItems: null
+};
+
 // Pages Rendering Logic
 function renderPage() {
     const main = document.getElementById('main-content');
