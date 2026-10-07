@@ -4,7 +4,9 @@
   "description": "AETHER Luxury Watches E-commerce",
   "main": "app.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "author": "",
   "license": "ISC",

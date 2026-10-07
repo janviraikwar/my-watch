@@ -1156,3 +1156,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100);
 });
+
+// Expose functions to window for inline onclick handlers (required for ES modules)
+window.navigate = navigate;
+window.toggleSearch = toggleSearch;
+window.handleSearch = handleSearch;
+window.addToCart = addToCart;
+window.buyNow = buyNow;
+window.checkoutCart = checkoutCart;
+window.removeFromCart = removeFromCart;
+window.toggleWishlist = toggleWishlist;
+window.handleLogin = handleLogin;
+window.handleLogout = handleLogout;
+window.handleRegister = handleRegister;
+window.handleVerifyOTP = handleVerifyOTP;
+window.editMobileNumber = editMobileNumber;
+window.toggleDropdown = toggleDropdown;
+window.viewProduct = viewProduct;
+window.loadMyOrders = loadMyOrders;

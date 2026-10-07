@@ -678,6 +678,19 @@ window.savePaymentSettings = async function(e, gateway) {
     }
 }
 
+// Expose functions to window for inline onclick handlers (required for ES modules)
 window.loadOrders = loadOrders;
 window.renderOrders = renderOrders;
 window.loadPaymentSettings = loadPaymentSettings;
+window.handleAdminLogin = handleAdminLogin;
+window.handleAdminLogout = handleAdminLogout;
+window.showSection = showSection;
+window.openProductModal = openProductModal;
+window.closeProductModal = closeProductModal;
+window.saveProduct = saveProduct;
+window.filterProducts = filterProducts;
+window.filterUsers = filterUsers;
+window.savePaymentSettings = savePaymentSettings;
+window.saveCMS = saveCMS;
+window.saveConfig = saveConfig;
+window.updateOrderStatus = updateOrderStatus;
