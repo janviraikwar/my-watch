@@ -98,32 +98,40 @@ function renderHome() {
 function renderShop() {
     return `
         <section class="section">
-            <div class="page-container shop-layout">
-                <aside class="filters-sidebar">
-                    <div class="filter-group">
-                        <h4>Category</h4>
-                        <label><input type="radio" name="cat" checked> All</label>
-                        <label><input type="radio" name="cat"> Men's</label>
-                        <label><input type="radio" name="cat"> Women's</label>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Price</h4>
-                        <label><input type="radio" name="price" checked> All</label>
-                        <label><input type="radio" name="price"> Under ₹25,000</label>
-                        <label><input type="radio" name="price"> ₹25,000+</label>
-                    </div>
-                </aside>
-                <div class="shop-content">
-                    <div class="section-header" style="text-align: left; margin-bottom: 20px; display:flex; justify-content:space-between;">
-                        <h2 class="title-md">Collection</h2>
-                        <select style="background:var(--card-bg); color:white; border:1px solid var(--border-color); padding:5px;">
-                            <option>Sort: Newest</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                        </select>
-                    </div>
-                    <div class="grid">
-                        ${products.map(p => productCardHTML(p)).join('')}
+            <div class="page-container">
+                <div class="shop-layout">
+                    <aside class="filters-sidebar">
+                        <button class="filter-toggle-btn" onclick="toggleFilters(this)">
+                            <span><i class="fa-solid fa-sliders"></i> Filters</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="filters-collapsible">
+                            <div class="filter-group">
+                                <h4>Category</h4>
+                                <label><input type="radio" name="cat" checked> All</label>
+                                <label><input type="radio" name="cat"> Men's</label>
+                                <label><input type="radio" name="cat"> Women's</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Price</h4>
+                                <label><input type="radio" name="price" checked> All</label>
+                                <label><input type="radio" name="price"> Under ₹25,000</label>
+                                <label><input type="radio" name="price"> ₹25,000+</label>
+                            </div>
+                        </div>
+                    </aside>
+                    <div class="shop-content">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                            <h2 class="title-md">Collection</h2>
+                            <select class="shop-sort-select">
+                                <option>Sort: Newest</option>
+                                <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
+                            </select>
+                        </div>
+                        <div class="grid">
+                            ${products.map(p => productCardHTML(p)).join('')}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,10 +139,18 @@ function renderShop() {
     `;
 }
 
+function toggleFilters(btn) {
+    const collapsible = btn.closest('.filters-sidebar').querySelector('.filters-collapsible');
+    const icon = btn.querySelector('.fa-chevron-down');
+    collapsible.classList.toggle('open');
+    if (icon) icon.style.transform = collapsible.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+window.toggleFilters = toggleFilters;
+
 function renderCart() {
     if (state.cart.length === 0) {
         return `
-            <section class="section page-container" style="text-align:center; padding-top:100px;">
+            <section class="section page-container" style="text-align:center; padding-top:80px;">
                 <h2 class="title-lg">Your Cart is Empty</h2>
                 <p style="margin:20px 0; color:var(--text-muted);">Explore our collection to find your perfect timepiece.</p>
                 <button class="btn-primary" onclick="navigate('shop')">Continue Shopping</button>
@@ -147,21 +163,21 @@ function renderCart() {
     return `
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">Shopping Cart</h2>
-            <div class="shop-layout">
+            <div class="cart-layout">
                 <div>
                     ${state.cart.map(item => `
-                        <div style="display:flex; gap:20px; background:var(--card-bg); padding:20px; margin-bottom:15px; border:1px solid var(--border-color);">
-                            <img src="${item.image}" style="width:100px; height:100px; object-fit:cover;">
-                            <div>
-                                <h4 style="font-size:1.2rem;">${item.name}</h4>
+                        <div class="cart-item">
+                            <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
                                 <p style="color:var(--gold); margin:5px 0;">₹${item.price.toLocaleString('en-IN')}</p>
-                                <p>Qty: ${item.quantity}</p>
-                                <button style="color:#ff4444; margin-top:10px;" onclick="removeFromCart('${item.id}')">Remove</button>
+                                <p style="color:var(--text-muted);">Qty: ${item.quantity}</p>
+                                <button style="color:#ff4444; margin-top:10px; background:none; border:none; cursor:pointer;" onclick="removeFromCart('${item.id}')">Remove</button>
                             </div>
                         </div>
                     `).join('')}
                 </div>
-                <div style="background:var(--card-bg); padding:30px; border:1px solid var(--border-color); height:fit-content;">
+                <div class="cart-summary-box">
                     <h3 style="margin-bottom:20px;">Order Summary</h3>
                     <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
                         <span>Subtotal</span>
@@ -176,7 +192,7 @@ function renderCart() {
                         <span>Total</span>
                         <span>₹${total.toLocaleString('en-IN')}</span>
                     </div>
-                    <button class="btn-primary" style="width:100%;" onclick="alert('Checkout process initiated!')">Proceed to Checkout</button>
+                    <button class="btn-primary" style="width:100%;" onclick="checkoutCart()">Proceed to Checkout</button>
                 </div>
             </div>
         </section>
@@ -376,19 +392,39 @@ function updateNav() {
                     <a href="#" onclick="handleLogout(); event.stopPropagation(); return false;" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                 </div>
             </div>
-            <a href="/admin/login" class="login-text" style="text-decoration:none; color:var(--text-muted); margin-left:15px;">Admin</a>
+            <a href="/admin/index.html" class="login-text" style="text-decoration:none; color:var(--text-muted); margin-left:15px;">Admin</a>
         `;
+        // Update mobile nav
+        const mobileActions = document.getElementById('mobile-nav-actions');
+        if (mobileActions) {
+            mobileActions.innerHTML = `
+                <a href="#" onclick="navigate('dashboard'); closeMobileNav(); return false;"><i class="fa-regular fa-user"></i> My Profile (${state.user.name.split(' ')[0]})</a>
+                <a href="#" onclick="navigate('my-orders'); closeMobileNav(); return false;"><i class="fa-solid fa-box"></i> My Orders</a>
+                <a href="#" onclick="navigate('wishlist'); closeMobileNav(); return false;"><i class="fa-regular fa-heart"></i> Wishlist</a>
+                <a href="/admin/index.html" style="color:var(--text-muted);" onclick="closeMobileNav()"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+                <a href="#" onclick="handleLogout(); closeMobileNav(); return false;" style="color:#ff6666;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+            `;
+        }
     } else {
         authBtn.onclick = null;
         authBtn.innerHTML = `
             <!-- Desktop Auth Links -->
             <a href="#" onclick="navigate('login'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Login</a>
             <a href="#" onclick="navigate('register'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Sign Up</a>
-            <a href="/admin/login" class="login-text" style="text-decoration:none; color:var(--text-muted);">Admin</a>
+            <a href="/admin/index.html" class="login-text" style="text-decoration:none; color:var(--text-muted);">Admin</a>
             
             <!-- Mobile fallback icon -->
-            <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')"></i>
+            <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')" style="cursor:pointer;"></i>
         `;
+        // Update mobile nav
+        const mobileActions = document.getElementById('mobile-nav-actions');
+        if (mobileActions) {
+            mobileActions.innerHTML = `
+                <a href="#" onclick="navigate('login'); closeMobileNav(); return false;">Login</a>
+                <a href="#" onclick="navigate('register'); closeMobileNav(); return false;">Sign Up</a>
+                <a href="/admin/index.html" style="color:var(--text-muted);" onclick="closeMobileNav()">Admin Panel</a>
+            `;
+        }
     }
 }
 
@@ -440,14 +476,14 @@ function renderRegister() {
                     <div class="form-group">
                         <input type="text" id="reg-address" placeholder="Complete Address" required>
                     </div>
-                    <div style="display:flex; gap:10px;">
-                        <div class="form-group" style="flex:1;">
+                    <div class="address-row">
+                        <div class="form-group">
                             <input type="text" id="reg-city" placeholder="City" required>
                         </div>
-                        <div class="form-group" style="flex:1;">
+                        <div class="form-group">
                             <input type="text" id="reg-state" placeholder="State" required>
                         </div>
-                        <div class="form-group" style="flex:1;">
+                        <div class="form-group">
                             <input type="text" id="reg-pin" placeholder="PIN Code" required>
                         </div>
                     </div>
@@ -637,57 +673,57 @@ function renderDashboard() {
     return `
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">My Dashboard</h2>
-            <div class="shop-layout">
-                <aside class="filters-sidebar">
+            <div class="dashboard-layout">
+                <aside class="dashboard-sidebar">
                     <div style="text-align:center; padding-bottom:20px; border-bottom:1px solid var(--border-color); margin-bottom:20px;">
-                        <img src="${state.user.avatar}" style="width:100px; height:100px; border-radius:50%; border:2px solid var(--gold); margin-bottom:15px;">
-                        <h3 style="font-size:1.2rem;">${state.user.name}</h3>
-                        <p style="color:var(--text-muted); font-size:0.9rem;">${state.user.mobile}</p>
+                        <img src="${state.user.avatar}" style="width:90px; height:90px; border-radius:50%; border:2px solid var(--gold); margin-bottom:15px; object-fit:cover;">
+                        <h3 style="font-size:1.1rem; word-break:break-word;">${state.user.name}</h3>
+                        <p style="color:var(--text-muted); font-size:0.85rem; word-break:break-all;">${state.user.email || ''}</p>
                     </div>
                     <div class="filter-group">
-                        <label style="color:var(--gold);"><i class="fa-regular fa-user" style="width:20px;"></i> My Profile</label>
-                        <label onclick="navigate('cart')"><i class="fa-solid fa-box" style="width:20px;"></i> My Orders</label>
-                        <label onclick="navigate('wishlist')"><i class="fa-regular fa-heart" style="width:20px;"></i> Wishlist</label>
-                        <label onclick="handleLogout()"><i class="fa-solid fa-arrow-right-from-bracket" style="width:20px;"></i> Logout</label>
+                        <label style="color:var(--gold); cursor:default;"><i class="fa-regular fa-user" style="width:20px;"></i> My Profile</label>
+                        <label onclick="navigate('my-orders')" style="cursor:pointer;"><i class="fa-solid fa-box" style="width:20px;"></i> My Orders</label>
+                        <label onclick="navigate('wishlist')" style="cursor:pointer;"><i class="fa-regular fa-heart" style="width:20px;"></i> Wishlist</label>
+                        <label onclick="handleLogout()" style="cursor:pointer; color:#ff6666;"><i class="fa-solid fa-arrow-right-from-bracket" style="width:20px;"></i> Logout</label>
                     </div>
                 </aside>
                 
-                <div class="shop-content" style="background:var(--card-bg); padding:30px; border:1px solid var(--border-color); border-radius:8px;">
+                <div style="background:var(--card-bg); padding:30px; border:1px solid var(--border-color); border-radius:8px;">
                     <h2 class="title-md" style="margin-bottom:30px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">Personal Information</h2>
                     
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:30px;">
+                    <div class="dashboard-info-grid">
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Full Name</p>
-                            <p style="font-size:1.1rem;">${state.user.name}</p>
+                            <p style="font-size:1.05rem; word-break:break-word;">${state.user.name}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Mobile Number</p>
-                            <p style="font-size:1.1rem;">${state.user.mobile}</p>
+                            <p style="font-size:1.05rem;">${state.user.mobile || 'N/A'}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Email Address</p>
-                            <p style="font-size:1.1rem;">${state.user.email || 'N/A'}</p>
+                            <p style="font-size:1.05rem; word-break:break-all;">${state.user.email || 'N/A'}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">User ID</p>
-                            <p style="font-size:1.1rem; font-family:monospace; color:var(--gold);">${state.user.id}</p>
+                            <p style="font-size:0.9rem; font-family:monospace; color:var(--gold); word-break:break-all;">${state.user.id}</p>
                         </div>
                     </div>
                     
                     <h2 class="title-md" style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:15px; margin-top:40px;">Shipping Address</h2>
                     
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                    <div class="dashboard-info-grid">
                         <div style="grid-column: 1 / -1;">
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">Complete Address</p>
-                            <p style="font-size:1.1rem;">${state.user.address}</p>
+                            <p style="font-size:1.05rem;">${state.user.address || 'N/A'}</p>
                         </div>
                         <div>
                             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">City</p>
-                            <p style="font-size:1.1rem;">${state.user.city}</p>
+                            <p style="font-size:1.05rem;">${state.user.city || 'N/A'}</p>
                         </div>
                         <div>
-                            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">State & PIN</p>
-                            <p style="font-size:1.1rem;">${state.user.state} - ${state.user.pin}</p>
+                            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:5px;">State &amp; PIN</p>
+                            <p style="font-size:1.05rem;">${(state.user.state || '') + (state.user.pin ? ' - ' + state.user.pin : '') || 'N/A'}</p>
                         </div>
                     </div>
                 </div>
@@ -764,15 +800,15 @@ function renderProductDetails() {
     const p = state.currentProduct;
     return `
         <section class="section page-container">
-            <div class="shop-layout" style="grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px;">
-                <div style="background: rgba(255,255,255,0.02); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
-                    <img src="${p.image}" style="max-width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" alt="${p.name}">
+            <div class="product-detail-layout">
+                <div class="product-detail-img-box">
+                    <img src="${p.image}" alt="${p.name}">
                 </div>
                 <div>
                     <h2 class="title-lg" style="margin-bottom: 10px;">${p.name}</h2>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Category: ${p.category} | Style: ${p.style}</p>
                     
-                    <div style="font-size: 2rem; color: var(--gold); margin-bottom: 30px;">
+                    <div style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--gold); margin-bottom: 30px; font-family:var(--font-heading);">
                         ₹${p.price.toLocaleString('en-IN')}
                     </div>
                     
@@ -781,18 +817,18 @@ function renderProductDetails() {
                         Designed for those who appreciate the finer things in life, featuring a beautiful ${p.strap} strap.
                     </p>
                     
-                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
-                        <button class="btn-primary" style="flex: 1; padding: 15px;" onclick="addToCart('${p.id}')">
+                    <div class="product-detail-actions">
+                        <button class="btn-primary" onclick="addToCart('${p.id}')">
                             <i class="fa-solid fa-cart-plus"></i> Add to Cart
                         </button>
-                        <button class="btn-primary" style="flex: 1; padding: 15px; background:var(--gold); color:#000;" onclick="buyNow('${p.id}')">
+                        <button class="btn-primary" onclick="buyNow('${p.id}')">
                             <i class="fa-solid fa-bolt"></i> Buy Now
                         </button>
                     </div>
-                    <div style="display: flex; gap: 20px; margin-bottom: 40px;">
-                        <button class="btn-outline" style="flex: 1; padding: 15px;" onclick="toggleWishlist('${p.id}', event)">
+                    <div style="margin-bottom: 30px;">
+                        <button class="btn-outline" style="width:100%; padding:15px;" onclick="toggleWishlist('${p.id}', event)">
                             <i class="${state.wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart"></i> 
-                            ${state.wishlist.includes(p.id) ? 'Saved' : 'Wishlist'}
+                            ${state.wishlist.includes(p.id) ? 'Saved to Wishlist' : 'Add to Wishlist'}
                         </button>
                     </div>
                     
@@ -831,10 +867,10 @@ window.renderCheckout = function() {
     return `
         <section class="section page-container">
             <h2 class="title-lg" style="margin-bottom:30px;">Checkout</h2>
-            <div class="shop-layout">
+            <div class="checkout-layout">
                 <div>
-                    <h3>Delivery Details</h3>
-                    <form id="checkout-form" onsubmit="handlePlaceOrder(event)" style="margin-top:20px;">
+                    <h3 style="margin-bottom:20px;">Delivery Details</h3>
+                    <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" id="chk-name" required value="${state.user.user_metadata?.first_name || ''} ${state.user.user_metadata?.last_name || ''}">
@@ -851,12 +887,12 @@ window.renderCheckout = function() {
                             <label>Complete Address</label>
                             <input type="text" id="chk-address" required value="${state.user.user_metadata?.address_street || ''}">
                         </div>
-                        <div style="display:flex; gap:10px;">
-                            <div class="form-group" style="flex:1;">
+                        <div class="address-row">
+                            <div class="form-group">
                                 <label>City</label>
                                 <input type="text" id="chk-city" required value="${state.user.user_metadata?.address_city || ''}">
                             </div>
-                            <div class="form-group" style="flex:1;">
+                            <div class="form-group">
                                 <label>State</label>
                                 <input type="text" id="chk-state" required value="${state.user.user_metadata?.address_state || ''}">
                             </div>
@@ -868,27 +904,27 @@ window.renderCheckout = function() {
                         
                         <h3 style="margin-top:30px; margin-bottom:15px;">Payment Method</h3>
                         <div class="form-group">
-                            <label><input type="radio" name="payment_method" value="razorpay" required> Razorpay (Credit/Debit/Netbanking)</label><br>
-                            <label><input type="radio" name="payment_method" value="cashfree" required> Cashfree Payments</label><br>
-                            <label><input type="radio" name="payment_method" value="cod" required checked> Cash on Delivery (COD)</label>
+                            <label style="display:block; margin-bottom:12px; color:var(--text-main);"><input type="radio" name="payment_method" value="razorpay" required style="margin-right:8px;"> Razorpay (Credit/Debit/Netbanking)</label>
+                            <label style="display:block; margin-bottom:12px; color:var(--text-main);"><input type="radio" name="payment_method" value="cashfree" required style="margin-right:8px;"> Cashfree Payments</label>
+                            <label style="display:block; margin-bottom:12px; color:var(--text-main);"><input type="radio" name="payment_method" value="cod" required checked style="margin-right:8px;"> Cash on Delivery (COD)</label>
                         </div>
                         
                         <button type="submit" class="btn-primary" style="width:100%; margin-top:20px; font-size:1.1rem; padding:15px;" id="btn-place-order">Place Order</button>
                     </form>
                 </div>
                 
-                <div style="background:var(--card-bg); padding:30px; border:1px solid var(--border-color); height:fit-content;">
+                <div class="checkout-summary-box">
                     <h3 style="margin-bottom:20px; font-family:var(--font-heading);">Order Summary</h3>
                     ${items.map(item => `
-                        <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-                            <div style="display:flex; gap:10px;">
-                                <img src="${item.image_url || item.image}" style="width:50px; height:50px; object-fit:cover;">
-                                <div>
-                                    <div style="font-weight:bold;">${item.name}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:15px; gap:10px;">
+                            <div style="display:flex; gap:10px; align-items:center; flex:1; min-width:0;">
+                                <img src="${item.image_url || item.image}" style="width:50px; height:50px; object-fit:cover; flex-shrink:0;">
+                                <div style="min-width:0;">
+                                    <div style="font-weight:bold; word-break:break-word; font-size:0.9rem;">${item.name}</div>
                                     <div style="font-size:0.8rem; color:var(--text-muted);">Qty: ${item.quantity}</div>
                                 </div>
                             </div>
-                            <div>₹${(item.price * item.quantity).toLocaleString('en-IN')}</div>
+                            <div style="flex-shrink:0;">₹${(item.price * item.quantity).toLocaleString('en-IN')}</div>
                         </div>
                     `).join('')}
                     <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
@@ -1110,26 +1146,26 @@ async function loadMyOrders() {
         }
         
         container.innerHTML = data.map(order => `
-            <div style="background:var(--card-bg); padding:20px; border:1px solid var(--border-color); margin-bottom:20px;">
-                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:15px;">
+            <div style="background:var(--card-bg); padding:20px; border:1px solid var(--border-color); margin-bottom:20px; border-radius:4px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:15px; flex-wrap:wrap; gap:5px;">
                     <div><strong>Order #${order.order_number || order.id.split('-')[0]}</strong></div>
-                    <div>${new Date(order.created_at).toLocaleDateString()}</div>
+                    <div style="color:var(--text-muted); font-size:0.9rem;">${new Date(order.created_at).toLocaleDateString()}</div>
                 </div>
-                <div style="display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-                    <div style="flex:2;">
+                <div class="order-row">
+                    <div class="order-items-col">
                         ${order.order_items.map(item => `
-                            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                                <img src="${item.product_image || 'https://via.placeholder.com/50'}" style="width:50px; height:50px; object-fit:cover;">
-                                <div>
-                                    <div>${item.product_name || 'Product'}</div>
+                            <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+                                <img src="${item.product_image || 'https://via.placeholder.com/50'}" style="width:50px; height:50px; object-fit:cover; flex-shrink:0;">
+                                <div style="min-width:0;">
+                                    <div style="word-break:break-word;">${item.product_name || 'Product'}</div>
                                     <div style="font-size:0.8rem; color:var(--text-muted);">Qty: ${item.quantity} | ₹${item.unit_price}</div>
                                 </div>
                             </div>
                         `).join('')}
                     </div>
-                    <div style="flex:1; border-left:1px solid var(--border-color); padding-left:20px;">
-                        <p><strong>Total:</strong> ₹${order.total_amount}</p>
-                        <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></p>
+                    <div class="order-status-col">
+                        <p style="margin-bottom:8px;"><strong>Total:</strong> ₹${order.total_amount}</p>
+                        <p style="margin-bottom:8px;"><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></p>
                         <p><strong>Payment:</strong> <span class="status-badge">${order.payment_method?.toUpperCase()} | ${order.payment_status || 'Pending'}</span></p>
                     </div>
                 </div>

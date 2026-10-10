@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="AETHER – Premium Luxury Watches. Discover exquisite timepieces crafted for elegance and precision.">
     <title>AETHER | Premium Luxury Watches</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +18,7 @@
     
     <header>
         <div class="brand-logo" onclick="navigate('home')">AETHER</div>
+
         <nav class="nav-links">
             <a href="#" onclick="navigate('home'); return false;">Home</a>
             <a href="#" onclick="navigate('shop'); return false;">Watches</a>
@@ -25,9 +27,10 @@
             <a href="#" onclick="navigate('home'); return false;">About</a>
             <a href="#" onclick="navigate('home'); return false;">Contact</a>
         </nav>
+
         <div class="nav-icons">
             <i class="fa-solid fa-magnifying-glass" style="cursor:pointer;" onclick="toggleSearch()"></i>
-            <i class="fa-regular fa-heart" onclick="navigate('wishlist')"></i>
+            <i class="fa-regular fa-heart" onclick="navigate('wishlist')" style="cursor:pointer;"></i>
             <div style="position:relative; cursor:pointer;" onclick="navigate('cart')">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span id="cart-count" style="position:absolute; top:-10px; right:-10px; background:var(--gold); color:#000; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:50%;">0</span>
@@ -36,13 +39,42 @@
                 <!-- Desktop Auth Links -->
                 <a href="#" onclick="navigate('login'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Login</a>
                 <a href="#" onclick="navigate('register'); return false;" class="login-text" style="text-decoration:none; color:inherit;">Sign Up</a>
-                <a href="/admin/login" class="login-text" style="text-decoration:none; color:var(--text-muted);">Admin</a>
+                <a href="/admin/index.html" class="login-text" style="text-decoration:none; color:var(--text-muted);">Admin</a>
                 
                 <!-- Mobile fallback icon -->
-                <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')"></i>
+                <i class="fa-regular fa-user login-icon-mobile" onclick="navigate('login')" style="cursor:pointer;"></i>
             </span>
         </div>
+
+        <!-- Hamburger button (mobile only) -->
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <nav class="mobile-nav-links">
+            <a href="#" onclick="navigate('home'); closeMobileNav(); return false;">Home</a>
+            <a href="#" onclick="navigate('shop'); closeMobileNav(); return false;">Watches</a>
+            <a href="#" onclick="navigate('shop'); closeMobileNav(); return false;">Men</a>
+            <a href="#" onclick="navigate('shop'); closeMobileNav(); return false;">Women</a>
+            <a href="#" onclick="navigate('home'); closeMobileNav(); return false;">About</a>
+            <a href="#" onclick="navigate('home'); closeMobileNav(); return false;">Contact</a>
+        </nav>
+
+        <div class="mobile-nav-actions" id="mobile-nav-actions">
+            <!-- Filled dynamically by updateNav() -->
+            <a href="#" onclick="navigate('login'); closeMobileNav(); return false;">Login</a>
+            <a href="#" onclick="navigate('register'); closeMobileNav(); return false;">Sign Up</a>
+            <a href="/admin/index.html" style="color:var(--text-muted);" onclick="closeMobileNav()">Admin Panel</a>
+        </div>
+    </div>
+
+    <!-- Mobile overlay backdrop -->
+    <div class="mobile-overlay" id="mobile-overlay" onclick="closeMobileNav()"></div>
 
     <!-- Search Overlay -->
     <div id="search-overlay" class="search-overlay">
@@ -86,7 +118,7 @@
             <div class="footer-col">
                 <h4>Customer Service</h4>
                 <ul>
-                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Shipping &amp; Returns</a></li>
                     <li><a href="#">Warranty</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                 </ul>
@@ -100,5 +132,40 @@
     <!-- Scripts -->
     <script type="module" src="/supabase-init.js"></script>
     <script type="module" src="/app.js"></script>
+
+    <!-- Mobile nav toggle script (non-module so it's globally available immediately) -->
+    <script>
+        function toggleMobileNav() {
+            const drawer = document.getElementById('mobile-nav-drawer');
+            const btn = document.getElementById('hamburger-btn');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                btn.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            } else {
+                drawer.classList.add('open');
+                btn.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeMobileNav() {
+            const drawer = document.getElementById('mobile-nav-drawer');
+            const btn = document.getElementById('hamburger-btn');
+            const overlay = document.getElementById('mobile-overlay');
+            drawer.classList.remove('open');
+            btn.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Expose globally
+        window.toggleMobileNav = toggleMobileNav;
+        window.closeMobileNav = closeMobileNav;
+    </script>
 </body>
 </html>

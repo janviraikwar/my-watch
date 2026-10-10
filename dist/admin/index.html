@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" crossorigin src="/assets/admin-Cwgvb4Kk.js"></script>
+  <script type="module" crossorigin src="/assets/admin-Bv3iQ7bm.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/supabase-init-DwNNH3oa.js">
-  <link rel="stylesheet" crossorigin href="/assets/admin-BdhwgEvL.css">
+  <link rel="stylesheet" crossorigin href="/assets/admin-CtJK0TIb.css">
 </head>
 <body>
 
@@ -40,21 +40,24 @@
         <aside class="sidebar">
             <div class="brand">AETHER ADMIN</div>
             <nav class="nav-menu">
-                <a href="#/dashboard" onclick="showSection('dashboard')" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-                <a href="#/products" onclick="showSection('products')" class="nav-item" data-target="products"><i class="fa-solid fa-box"></i> Products</a>
-                <a href="#/users" onclick="showSection('users')" class="nav-item" data-target="users"><i class="fa-solid fa-users"></i> Users</a>
-                <a href="#/customers" onclick="showSection('customers')" class="nav-item" data-target="customers"><i class="fa-solid fa-address-book"></i> Customers</a>
-                <a href="#/orders" onclick="showSection('orders')" class="nav-item" data-target="orders"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
-                <a href="#/payments" onclick="showSection('payments')" class="nav-item" data-target="payments"><i class="fa-solid fa-credit-card"></i> Payment Gateways</a>
-                <a href="#/cms" onclick="showSection('cms')" class="nav-item" data-target="cms"><i class="fa-solid fa-file-pen"></i> CMS</a>
-                <a href="#/settings" onclick="showSection('config')" class="nav-item" data-target="config"><i class="fa-solid fa-gear"></i> Settings</a>
-                <a href="#" onclick="showSection('profile')" class="nav-item" data-target="profile"><i class="fa-solid fa-user-tie"></i> Admin Profile</a>
+                <a href="#/dashboard" onclick="showSection('dashboard'); closeAdminSidebar();" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#/products" onclick="showSection('products'); closeAdminSidebar();" class="nav-item" data-target="products"><i class="fa-solid fa-box"></i> Products</a>
+                <a href="#/users" onclick="showSection('users'); closeAdminSidebar();" class="nav-item" data-target="users"><i class="fa-solid fa-users"></i> Users</a>
+                <a href="#/customers" onclick="showSection('customers'); closeAdminSidebar();" class="nav-item" data-target="customers"><i class="fa-solid fa-address-book"></i> Customers</a>
+                <a href="#/orders" onclick="showSection('orders'); closeAdminSidebar();" class="nav-item" data-target="orders"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+                <a href="#/payments" onclick="showSection('payments'); closeAdminSidebar();" class="nav-item" data-target="payments"><i class="fa-solid fa-credit-card"></i> Payment Gateways</a>
+                <a href="#/cms" onclick="showSection('cms'); closeAdminSidebar();" class="nav-item" data-target="cms"><i class="fa-solid fa-file-pen"></i> CMS</a>
+                <a href="#/settings" onclick="showSection('config'); closeAdminSidebar();" class="nav-item" data-target="config"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a href="#" onclick="showSection('profile'); closeAdminSidebar();" class="nav-item" data-target="profile"><i class="fa-solid fa-user-tie"></i> Admin Profile</a>
                 <a href="#" onclick="handleAdminLogout()" class="nav-item logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
             </nav>
         </aside>
 
         <main class="main-content">
             <header class="top-header">
+                <button class="sidebar-toggle" onclick="toggleAdminSidebar()" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
                 <h3>Management Portal</h3>
                 <div class="admin-profile" onclick="showSection('profile')" style="cursor: pointer;">
                     <span id="current-admin-email">Admin</span>
@@ -337,6 +340,9 @@
         </main>
     </div>
 
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeAdminSidebar()"></div>
+
     <!-- Product Modal -->
     <div id="product-modal" class="modal">
         <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
@@ -396,5 +402,33 @@
         </div>
     </div>
 
+
+    <!-- Mobile Sidebar Toggle (non-module, available immediately) -->
+    <script>
+        function toggleAdminSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (!sidebar) return;
+            const isOpen = sidebar.classList.contains('mobile-open');
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.add('mobile-open');
+                if (overlay) overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeAdminSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        window.toggleAdminSidebar = toggleAdminSidebar;
+        window.closeAdminSidebar = closeAdminSidebar;
+    </script>
 </body>
 </html>
